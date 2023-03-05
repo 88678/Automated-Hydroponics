@@ -7,7 +7,7 @@ from anyleaf import PhSensor, CalPt, CalSlot, OnBoard, OffBoard
 
 def main():
     i2c = busio.I2C(board.SCL, board.SDA)
-    delay = 1  # Time between measurements, in seconds
+    delay = 1  # Time between measurements, in seconds測量之間的時間，以秒為單位
     ph_sensor = PhSensor(i2c, delay)
 
     # 2 or 3 pt calibration both give acceptable results.
