@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新增數據</title>
+</head>
+<body>
+    <form style="width: 400px; margin: 100px auto" method="post"><!--上下100px 左右400px 自動對齊(置中)-->
+        <div>
+            <label>用戶名:</label>
+            <input type="text" id="txtName" name="txtName" placeholder="請輸入" value="{{student.name}}"/>
+        </div>
+        <div>
+            <label>中文成績 :</label>
+            <input type="text" id="chinese" name="chinese" placeholder="請輸入" value="{{student.chinese}}"/>
+        </div>
+        <div>
+            <label>數學成績 :</label>
+            <input type="text" id="math" name="math" placeholder="請輸入" value="{{student.math}}"/>
+        </div>
+        <div>
+            <label>英文成績 :</label>
+            <input type="text" id="english" name="english" placeholder="請輸入" value="{{student.english}}"/>
+        </div>
+        <div>
+             <input type="submit" value="提交" onclick="ShowMsg"/>
+        </div>
+       </form> 
+</body>
+</html>

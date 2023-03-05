@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入</title>
+    <script>
+        function ShowMsg(){
+            alert('hello') ;
+        }
+          
+    </script>
+</head>
+<body>
+   <form style="width: 400px; margin: 100px auto" method="post"><!--上下100px 左右400px 自動對齊(置中)-->
+    <div>
+        <label>帳號:</label>
+        <input type="text" id="txAct" name="txtAct" placeholder="請輸入" />
+    </div>
+    <div>
+        <label>密碼:</label>
+        <input type="password" id="txPas" name="txtPas" placeholder="請輸入"/>
+    </div>
+    <div>
+        <label for="exampleCheck1">記住我</label>
+        <input type="checkbox">
+        
+    </div>
+    <div>
+         <input type="submit" value="提交" onclick="ShowMsg()"/>
+    </div>
+   </form> 
+</body>
+</html>

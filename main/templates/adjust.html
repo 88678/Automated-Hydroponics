@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>調整</title>
+</head>
+<body>
+    <h1>調整</h1>
+    <a href="/autoControl">自動控制</a>
+    
+    <form name='form' id='form' method="get">
+        <div>
+            <h3>Ph</h3>
+            <input type="number" id="numAdjustPh" name="numAdjustPh" step="0.5" min="1" max="14" placeholder="1-14" value="{{AdjustPh}}" />
+        </div>
+
+        <h3>光照</h3>
+        <div>
+            <h3>溫度</h3>
+            <input type="number" id="numAdjustTemp" name="numAdjustTemp" step="0.1" min="16" max="31" placeholder="16-31" value="{{AdjustTemp}}" />
+            <label>°C</label>
+        </div>
+
+        <div>
+            <h3>濕度</h3>
+            <input type="number" id="numAdjustRH" name="numAdjustRH" step="1" min="0" max="100" placeholder="0-100" value="{{AdjustRH}}" />
+            <label>%</label>
+        </div>
+        
+        <div>
+            <input type="submit" value="提交" />
+       </div>
+    </form>
+    <!-- <script>
+              
+        const form = document.forms['form'];
+        //取 elements 集合中 name 屬性為 name 的值
+        const AJPH = form.elements.numAdjustPh.value;
+        //取 elements 集合中 name 屬性為 email 的值
+      
+        alert('ph調整為' +  document.getElementById('numAdjustPh').value)
+        
+
+    </script> -->
+</body>
+</html>

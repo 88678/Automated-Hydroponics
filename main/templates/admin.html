@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入後頁面</title>
+    <style>
+ .table { 
+        border:1px; 
+        font-size:16px; 
+        width:80%;
+        border:1px solid #000;
+        text-align:center;
+        border-collapse:collapse;
+ }
+    </style>
+   
+</head>
+<body>
+    <table class="table" border="1">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">姓名</th>
+            <th scope="col">中文</th>
+            <th scope="col">數學</th>
+            <th scope="col">英文</th>
+            <th scope="col">操作</th>
+          </tr>
+        
+        </thead>
+        <tbody>
+          {% for stu in student %}   
+          <!-- 使用'模板語法'將python對象數據顯示到瀏覽器上 
+            jinfa2可以直接在html中寫python邏輯
+            -->
+          <tr>
+            <th scope="row"></th>
+            <td>{{stu.name}}</td>
+            <td>{{stu.chinese}}</td>
+            <td>{{stu.math}}</td>
+            <td>{{stu.english}}</td>
+            <td><a href="/delete?name={{stu.name}}">刪除  </a><a href="/change?name={{stu.name}}">修改 </a></td>  <!--?name={{stu.name}}請求攜帶的參數 可透過後端的python的request.args獲取-->
+          </tr>
+          {% endfor %}
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+            <td ></td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+            <td ></td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+            <td ></td>
+          </tr>
+    
+        </tbody>
+    </table>
+    <div>
+      <a href="/add">新增學員信息</a>     <!--超連結到/add-->
+    </div>
+</body>
+</html>
