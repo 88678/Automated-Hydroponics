@@ -13,7 +13,7 @@ ph = 5.33##未來要從別的檔案import ph ec
 ec = 2.4
 
 i = 1
-#test
+#test25
 
 
 @app.route('/')     #@裝飾器(路由)      #('/')根目錄   訪問路徑
