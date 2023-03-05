@@ -2,7 +2,7 @@ import time
 
 import board
 import busio
-from anyleaf import PhSensor, CalPt, CalSlot, OnBoard, OffBoard
+# from anyleaf import PhSensor, CalPt, CalSlot, OnBoard, OffBoard
 
 
 def main():
