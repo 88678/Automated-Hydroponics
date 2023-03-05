@@ -21,4 +21,5 @@ print("{:>5}\t{:>5}".format('raw', 'v'))
 while True:
     print("{:>5}\t{:>5.3f}".format(chan.value, chan.voltage))
     # format格式化文字 value:取出字典中的所有值
+    print('ph',chan.voltage*-5.8887 + 21.677)
     time.sleep(0.5)
