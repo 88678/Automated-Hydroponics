@@ -17,3 +17,4 @@ try:
 except:
     pass
 GPIO.cleanup()
+#test
