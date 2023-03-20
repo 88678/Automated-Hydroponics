@@ -8,8 +8,8 @@ range = 0.5
 
 
 if nowph > adjustPH + range:
-    開啟酸馬達
+    #開啟酸馬達
 
 if nowph < adjustPH - range:
-    開啟鹼馬達
+    #開啟鹼馬達
     
