@@ -1,16 +1,13 @@
 #用ads讀ph值出來，再把ph存到SQL
 import mysql.connector  #需要先pip install mysql-connector-python #sql
-import time #sql
 
-import time #ADS
+import time #ADS#sql
 import board #ADS
 import busio #ADS
 import adafruit_ads1x15.ads1115 as ADS #ADS
 from adafruit_ads1x15.analog_in import AnalogIn #ADS
 
-# 格式化成2016-03-20 11:45:39形式
-time = (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) #sql
-
+time = (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) #sql# 格式化成2016-03-20 11:45:39形式
 
 connection = mysql.connector.connect(host = 'localhost',port = '3306',user = 'root',password = 'jonsoncC7',database = 'hydroponics')   #database要使用的資料庫 #sql
 
@@ -19,7 +16,8 @@ cursor = connection.cursor()        #告訴他要開始使用了?#cursor光標 #
 sql = "INSERT INTO hydroponics (time, ph) VALUES (%s, %s);" #sql
 
 '''
-sql
+sql上面
+ads(PH)下面
 '''
 
 
@@ -43,7 +41,7 @@ while True:
     print("{:>5}\t{:>5.3f}".format(chan.value, chan.voltage)) #ADS
     # format格式化文字 value:取出字典中的所有值
     print('ph',ph)    #ADS
-    time.sleep(0.5) #ADS
+    time.sleep(1) #ADS
 
     new_data = (time, ph) #sql
     cursor.execute(sql, new_data)   #??? #sql
