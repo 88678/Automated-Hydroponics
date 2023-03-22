@@ -34,9 +34,6 @@ records = cursor.fetchall()   #fetchall()：取出全部資料(列表狀態)
 for r in records:           #把列表取出 印出
     print(r)
 
-
-
-
 print('running')
 
 #執行完後都要關閉
