@@ -2,6 +2,12 @@
 import mysql.connector  #需要先pip install mysql-connector-python #sql
 import time #sql
 
+import time #ADS
+import board #ADS
+import busio #ADS
+import adafruit_ads1x15.ads1115 as ADS #ADS
+from adafruit_ads1x15.analog_in import AnalogIn #ADS
+
 # 格式化成2016-03-20 11:45:39形式
 time = (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) #sql
 
@@ -15,11 +21,7 @@ sql = "INSERT INTO hydroponics (time, ph) VALUES (%s, %s);" #sql
 '''
 sql
 '''
-import time #ADS
-import board #ADS
-import busio #ADS
-import adafruit_ads1x15.ads1115 as ADS #ADS
-from adafruit_ads1x15.analog_in import AnalogIn #ADS
+
 
 # Create the I2C bus #創建 I2C 總線
 i2c = busio.I2C(board.SCL, board.SDA) #ADS
