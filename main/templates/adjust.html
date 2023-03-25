@@ -9,14 +9,21 @@
 <body>
     <h1>調整</h1>
     <a href="/autoControl">自動控制</a>
+    <div>添加及時調整區。可以開關冷氣、燈光、除濕機等</div>
     
     <form name='form' id='form' method="get">
         <div>
             <h3>Ph</h3>
             <input type="number" id="numAdjustPh" name="numAdjustPh" step="0.5" min="1" max="14" placeholder="1-14" value="{{AdjustPh}}" />
+            <p>調ph時馬達運轉</p>
         </div>
-
-        <h3>光照</h3>
+        <div>
+            <h3>光照</h3>
+            <p>2種方法(從幾點開到幾點 有個加號可以加) (用24個方塊 控制開關)</p>
+        </div>
+        <div>
+            <h3>馬達抽水時間</h3>
+        </div>
         <div>
             <h3>溫度</h3>
             <input type="number" id="numAdjustTemp" name="numAdjustTemp" step="0.1" min="16" max="31" placeholder="16-31" value="{{AdjustTemp}}" />
