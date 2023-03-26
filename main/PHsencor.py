@@ -7,9 +7,9 @@ import busio #ADS
 import adafruit_ads1x15.ads1115 as ADS #ADS
 from adafruit_ads1x15.analog_in import AnalogIn #ADS
 
-time = (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) #sql# 格式化成2016-03-20 11:45:39形式
+nowTime = (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) #sql# 格式化成2016-03-20 11:45:39形式
 
-connection = mysql.connector.connect(host = 'localhost',port = '3306',user = 'root',password = 'jonsoncC7',database = 'hydroponics')   #database要使用的資料庫 #sql
+connection = mysql.connector.connect(host = 'localhost',port = '3306',user = 'jonsoncc7',password = 'jonsoncC7',database = 'hydroponics')   #database要使用的資料庫 #sql
 
 cursor = connection.cursor()        #告訴他要開始使用了?#cursor光標 #sql
 
@@ -43,7 +43,7 @@ while True:
     print('ph',ph)    #ADS
     time.sleep(1) #ADS
 
-    new_data = (time, ph) #sql
+    new_data = (nowTime, ph) #sql
     cursor.execute(sql, new_data)   #??? #sql
     connection.commit() #有動到資料 都要寫這個 才會提交指令 #sql
     connection.close()  #關閉connection連線 #sql
