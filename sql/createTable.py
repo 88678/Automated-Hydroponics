@@ -1,9 +1,10 @@
 #應該一開始執行一次就好
 #測試時一開始執行沒有結果，用偵錯就可以跑了
+#1.創建資料庫 和3.創建表格 要分開來執行
 
 import mysql.connector  #需要先pip install mysql-connector-python
 
-connection = mysql.connector.connect(host = 'localhost',port = '3306',user = 'root',password = 'jonsoncC7') #連線    #因為在本機，所以是locahost   #port會寫在mySQL workbench  #user和password是workbench的使用者名稱和密碼
+connection = mysql.connector.connect(host = 'localhost',port = '3306',user = 'jonsoncc7',password = 'jonsoncC7') #連線    #因為在本機，所以是locahost   #port會寫在mySQL workbench  #user和password是workbench的使用者名稱和密碼
 
 cursor = connection.cursor()        #告訴他要開始使用了?#cursor光標
 
