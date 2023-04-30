@@ -34,16 +34,18 @@ chan = AnalogIn(ads, ADS.P0) #ADS
 #chan = AnalogIn(ads, ADS.P0, ADS.P1)   #AnalogIn(模擬輸入) 接口用於讀取施加到模擬輸入引腳的電壓。
 ph = chan.voltage*-5.8887 + 21.677  #套用用戶手冊的公式 #ADS
 
-print("{:>5}\t{:>5}".format('raw', 'v')) #ADS
+print("{:>5}\t{:>5}\t{:>5}".format('raw', 'v','PH')) #ADS
 
+try:
+    while True:
+        print("{:>5}\t{:>5.3f}\t{:>5}".format(chan.value, chan.voltage,ph)) #ADS
+        # format格式化文字 value:取出字典中的所有值
+        time.sleep(10) #ADS
 
-while True:
-    print("{:>5}\t{:>5.3f}".format(chan.value, chan.voltage)) #ADS
-    # format格式化文字 value:取出字典中的所有值
-    print('ph',ph)    #ADS
-    time.sleep(1) #ADS
-
-    new_data = (nowTime, ph) #sql
-    cursor.execute(sql, new_data)   #??? #sql
-    connection.commit() #有動到資料 都要寫這個 才會提交指令 #sql
-    connection.close()  #關閉connection連線 #sql
+        new_data = (nowTime, ph) #sql
+        cursor.execute(sql, new_data)   #在sql中的時間和ph位置新增時間和ph #sql
+        print('sql',sql,'new_data',new_data)
+        connection.commit() #有動到資料 都要寫這個 才會提交指令 #sql
+except:
+    print('  關閉connection連線')
+    connection.close()  #關閉connection連線 #sql    
