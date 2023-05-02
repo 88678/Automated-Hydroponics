@@ -24,7 +24,7 @@ cursor.execute('CREATE DATABASE `hydroponics`;') #execute執行SQL指令    #在
 cursor.execute('USE `hydroponics`;')  #使用hydroponics資料庫
 
 #3.創建表格
-cursor.execute('CREATE TABLE `hydroponics`(`time` TIMESTAMP,`ph` INT);')  #創建名為hydroponics的表格有time和ph兩個屬性 資料型態分別為TIMESTAMP和INT
+cursor.execute('CREATE TABLE `hydroponics`(`time` TIMESTAMP,`ph` DECIMAL(4,2));')  #創建名為hydroponics的表格有time和ph兩個屬性 資料型態分別為TIMESTAMP和decimal(總共有幾位數,小數點後面有幾位)
 
 #刪除表格(有需要再用)
 # cursor.execute('DROP TABLE `hydroponics`;')
