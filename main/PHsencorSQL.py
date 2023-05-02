@@ -1,4 +1,5 @@
-#用ads讀ph值出來，再把ph存到SQL
+#/coding=utf-8
+# 用ads讀ph值出來 再把ph存到SQL
 import mysql.connector  #需要先pip install mysql-connector-python #sql
 
 import time #ADS#sql
@@ -47,5 +48,5 @@ try:
         print('sql',sql,'new_data',new_data)
         connection.commit() #有動到資料 都要寫這個 才會提交指令 #sql
 except:
-    print('  關閉connection連線')
+    print('  關閉連線')
     connection.close()  #關閉connection連線 #sql    

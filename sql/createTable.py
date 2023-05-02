@@ -9,7 +9,7 @@ connection = mysql.connector.connect(host = 'localhost',port = '3306',user = 'jo
 cursor = connection.cursor()        #告訴他要開始使用了?#cursor光標
 
 #1.創建資料庫
-cursor.execute('CREATE DATABASE `hydroponics`;') #execute執行SQL指令    #在()內輸入SQL指令  #創建一個叫hydroponics的資料庫
+# cursor.execute('CREATE DATABASE `hydroponics`;') #execute執行SQL指令    #在()內輸入SQL指令  #創建一個叫hydroponics的資料庫
 
 #刪除資料庫(有需要再用)
 # cursor.execute('drop database `hydroponics`;	')
