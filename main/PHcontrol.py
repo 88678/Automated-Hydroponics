@@ -29,6 +29,7 @@ while True:
         time.sleep(10)   #持續10秒
         GPIO.output(alkali, GPIO.LOW)
         time.sleep(900)  #持續15分鐘
+    
         
     
     
