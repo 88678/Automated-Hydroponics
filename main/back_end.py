@@ -98,13 +98,17 @@ def adjust():
         AdjustPh = request.values.get('numAdjustPh')    #要調整的ph
         AdjustTemp = request.values.get('numAdjustTemp')  #要調整的溫度
         AdjustRH = request.values.get('numAdjustRH')    #要調整的濕度
+        numInterval = request.values.get('numInterval') #打水間隔
+        numPump = request.values.get('numPump')
+
         
         print('ph要調整為:',AdjustPh)
         print('溫度要調整為:',AdjustTemp,'°C')
         print('濕度要調整為:',AdjustRH,'%')
+        print('每',numInterval,'分鐘，打水',numPump,'分鐘')
         
         # return redirect('/autoControl')   #重定向回autoControl
-    return render_template('adjust.html',AdjustPh=AdjustPh,AdjustTemp=AdjustTemp,AdjustRH=AdjustRH)    #連結到adjust.html
+    return render_template('adjust.html',AdjustPh=AdjustPh,numInterval=numInterval,numPump=numPump,AdjustTemp=AdjustTemp,AdjustRH=AdjustRH)    #連結到adjust.html
 
 
 
