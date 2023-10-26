@@ -1,6 +1,37 @@
-from flask import Flask,render_template,request,redirect    #render_template連分頁   #request拿前端數據  #redirect重定向
+from flask import Flask,render_template,request,g,redirect    #render_template連分頁   #request拿前端數據 #g上下文變數 #redirect重定向
 
 app = Flask(__name__)   #__name__代表目前執行的模組
+
+###ph read
+
+import time
+import board
+import busio
+import adafruit_ads1x15.ads1115 as ADS
+from adafruit_ads1x15.analog_in import AnalogIn
+# 即使有未處理的異常拋出，也每一次请求之后都会调用，会接受一个参数，参数是服务器出现的错误信息  #要在debug為true
+ph = 0
+@app.teardown_request
+def teardown_request(error):
+
+    # Create the I2C bus #創建 I2C 總線
+    i2c = busio.I2C(board.SCL, board.SDA)
+    # Create the ADC object using the I2C bus #使用I2C總線創建ADC對象
+    ads = ADS.ADS1115(i2c)
+    # Create single-ended input on channel 0 #在通道0上創建單端輸入
+    chan = AnalogIn(ads, ADS.P0)
+    print("{:>5}\t{:>5}".format('raw', 'v'))
+    
+    print("{:>5}\t{:>5.3f}".format(chan.value, chan.voltage))
+    # format格式化文字 value:取出字典中的所有值
+    global ph
+    ph = chan.voltage*-5.8887 + 21.677  #套用用戶手冊的公式
+    print('ph in teardown_request',ph)
+print('global ph',ph)   
+    # g.ph = ph  # 存儲 ph 到 Flask 的上下文變數 g
+    # print('g.ph in teardown_request',g.ph)
+    # time.sleep(0.5)
+###
 
 # student = [                                         #一邊來說這裡是數據庫，這裡用列表示範   #給admin資料
 #     {'name': '張三','chinese':'65','math':65,'english':'66'},
@@ -9,7 +40,7 @@ app = Flask(__name__)   #__name__代表目前執行的模組
 #     {'name': '造六','chinese':'65','math':65,'english':'65'},
 
 
-ph = 5.33##未來要從別的檔案import ph ec
+# ph = 0##未來要從別的檔案import ph ec
 ec = 2.4
 
 i = 1
@@ -86,9 +117,10 @@ def hello():
 #             #需要在頁面中渲染學生的成績數據
 #             return render_template('change.html',student=stu)       #把學員數據顯示到前端
 #     return redirect('/admin')   #重定向回admin
-@app.route('/autoControl')
-def autoControl():
-    return render_template('autoControl.html')    #連結到autoControl.html
+@app.route('/dashboard')
+def dashboard():
+    # print(g.ph)
+    return render_template('dashboard.html',ph=ph)    #連結到dashboard.html
 
 @app.route('/adjust',methods=['GET','POST']) 
 def adjust():
@@ -107,7 +139,7 @@ def adjust():
         print('濕度要調整為:',AdjustRH,'%')
         print('間隔',numInterval,'分鐘，打水',numPump,'分鐘')
         
-        # return redirect('/autoControl')   #重定向回autoControl
+        # return redirect('/dashboard')   #重定向回dashboard
     return render_template('adjust.html',AdjustPh=AdjustPh,numInterval=numInterval,numPump=numPump,AdjustTemp=AdjustTemp,AdjustRH=AdjustRH)    #連結到adjust.html
 
 
