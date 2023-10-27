@@ -44,8 +44,8 @@ try:
         time.sleep(10) #ADS
 
         new_data = (nowTime, ph) #sql
-        cursor.execute(sql, new_data)   #在sql中的時間和ph位置新增時間和ph #sql
-        print('sql',sql,'new_data',new_data)
+        cursor.execute(sql, new_data)   #在sql中的時間和ph位置 新增時間和ph #sql
+        print('數據庫寫入','new_data',new_data)
         connection.commit() #有動到資料 都要寫這個 才會提交指令 #sql
 except:
     print('  關閉連線')

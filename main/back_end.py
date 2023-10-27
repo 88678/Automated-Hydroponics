@@ -1,16 +1,26 @@
 from flask import Flask,render_template,request,g,redirect    #render_template連分頁   #request拿前端數據 #g上下文變數 #redirect重定向
 
+import mysql.connector  #需要先pip install mysql-connector-python #sql
+
+import time #ADS#sql
+import board #ADS
+import busio #ADS
+import adafruit_ads1x15.ads1115 as ADS #ADS
+from adafruit_ads1x15.analog_in import AnalogIn #ADS
+
+
 app = Flask(__name__)   #__name__代表目前執行的模組
 
-###ph read
+##sql write
+nowTime = (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) #sql# 格式化成2016-03-20 11:45:39形式
+connection = mysql.connector.connect(host = 'localhost',port = '3306',user = 'jonsoncc7',password = 'jonsoncC7',database = 'hydroponics')   #database要使用的資料庫 #sql
+cursor = connection.cursor()        #告訴他要開始使用了?#cursor光標 #sql
+sql = "INSERT INTO hydroponics (time, ph) VALUES (%s, %s);" #sql
 
-import time
-import board
-import busio
-import adafruit_ads1x15.ads1115 as ADS
-from adafruit_ads1x15.analog_in import AnalogIn
-# 即使有未處理的異常拋出，也每一次请求之后都会调用，会接受一个参数，参数是服务器出现的错误信息  #要在debug為true
+##sql write
+    ###ph read
 ph = 0
+#即使有未處理的異常拋出，也每一次请求之后都会调用，会接受一个参数，参数是服务器出现的错误信息 #要在debug為true情況下
 @app.teardown_request
 def teardown_request(error):
 
@@ -24,13 +34,17 @@ def teardown_request(error):
     
     print("{:>5}\t{:>5.3f}".format(chan.value, chan.voltage))
     # format格式化文字 value:取出字典中的所有值
-    global ph
+    global ph   #使用全域的ph
     ph = chan.voltage*-5.8887 + 21.677  #套用用戶手冊的公式
     print('ph in teardown_request',ph)
+    nowTime = (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) #sql# 格式化成2016-03-20 11:45:39形式
+    new_data = (nowTime, ph) #sql
+    cursor.execute(sql, new_data)   #在sql中的時間和ph位置 新增時間和ph #sql
+    print('數據庫寫入','new_data',new_data)
+    connection.commit() #有動到資料 都要寫這個 才會提交指令 #sql
+    ###ph
 print('global ph',ph)   
-    # g.ph = ph  # 存儲 ph 到 Flask 的上下文變數 g
-    # print('g.ph in teardown_request',g.ph)
-    # time.sleep(0.5)
+   
 ###
 
 # student = [                                         #一邊來說這裡是數據庫，這裡用列表示範   #給admin資料
@@ -119,7 +133,7 @@ def hello():
 #     return redirect('/admin')   #重定向回admin
 @app.route('/dashboard')
 def dashboard():
-    # print(g.ph)
+    
     return render_template('dashboard.html',ph=ph)    #連結到dashboard.html
 
 @app.route('/adjust',methods=['GET','POST']) 
