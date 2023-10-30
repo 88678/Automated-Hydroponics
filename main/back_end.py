@@ -1,6 +1,8 @@
 from flask import Flask,render_template,request,g,redirect    #render_template連分頁   #request拿前端數據 #g上下文變數 #redirect重定向
 
-import mysql.connector  #需要先pip install mysql-connector-python #sql
+import mysql.connector  #需要先pip install mysql-connector-python #sql #圖表
+
+import matplotlib.pyplot as plt  # 匯入 Matplotlib 套件   #圖表
 
 import time #ADS#sql
 import board #ADS
@@ -8,8 +10,13 @@ import busio #ADS
 import adafruit_ads1x15.ads1115 as ADS #ADS
 from adafruit_ads1x15.analog_in import AnalogIn #ADS
 
+from flask_apscheduler import APScheduler   #定時任務
+
+
 
 app = Flask(__name__)   #__name__代表目前執行的模組
+
+scheduler = APScheduler()   
 
 ##sql write
 nowTime = (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) #sql# 格式化成2016-03-20 11:45:39形式
@@ -21,8 +28,9 @@ sql = "INSERT INTO hydroponics (time, ph) VALUES (%s, %s);" #sql
     ###ph read
 ph = 0
 #即使有未處理的異常拋出，也每一次请求之后都会调用，会接受一个参数，参数是服务器出现的错误信息 #要在debug為true情況下
-@app.teardown_request
-def teardown_request(error):
+# @app.teardown_request
+# def teardown_request(error):
+def update_data():
 
     # Create the I2C bus #創建 I2C 總線
     i2c = busio.I2C(board.SCL, board.SDA)
@@ -42,7 +50,36 @@ def teardown_request(error):
     cursor.execute(sql, new_data)   #在sql中的時間和ph位置 新增時間和ph #sql
     print('數據庫寫入','new_data',new_data)
     connection.commit() #有動到資料 都要寫這個 才會提交指令 #sql
-    ###ph
+    ###ph read
+    # ####圖表
+    # # cursor = mydb.cursor()  # 創建 MySQL 游標物件，用於執行 SQL 查詢
+
+    # # 從 MySQL 中擷取資料到 Python 程式中
+    # cursor.execute("select time, ph from hydroponics;")  # 執行 SQL 查詢，選擇 hydroponics 表格中的 time 和 ph 欄位
+    # result = cursor.fetchall  # 擷取查詢結果
+
+    # time_list = []  # 用來儲存time_list的清單
+    # ph_list = []  # 用來儲存ph_list的清單
+
+    # # 迭代處理查詢結果，將姓名和成績分別加入清單
+    # for i in cursor:
+    #     time_list.append(i[0])  # 將姓名加入 Names 清單
+    #     ph_list.append(i[1])  # 將成績加入 Marks 清單
+
+    # # 輸出學生姓名和成績
+    # print("Name of Students = ", time_list)  # 顯示學生姓名
+    # print("Marks of Students = ", ph_list)  # 顯示學生成績
+
+    # # 使用 Matplotlib 進行資料視覺化
+    # # plt.bar(time_list, ph_list)  # 創建長條圖，擺放學生姓名和成績
+    # # 繪製折線圖
+    # plt.plot(time_list, ph_list, label='折線圖', marker='', linestyle='-', color='b')
+    # plt.ylim(0, 14)  # 設定 Y 軸範圍
+    # plt.xlabel("time_list")  # 設定 X 軸標籤
+    # plt.ylabel("ph_list")  # 設定 Y 軸標籤
+    # plt.title("ph_list table")  # 設定圖表標題
+    # plt.show()  # 顯示圖表
+    #     ####圖表
 print('global ph',ph)   
    
 ###
@@ -133,7 +170,8 @@ def hello():
 #     return redirect('/admin')   #重定向回admin
 @app.route('/dashboard')
 def dashboard():
-    
+    scheduler.add_job(id='update_job', func=update_data, trigger='interval', seconds=10)
+    scheduler.start()
     return render_template('dashboard.html',ph=ph)    #連結到dashboard.html
 
 @app.route('/adjust',methods=['GET','POST']) 
