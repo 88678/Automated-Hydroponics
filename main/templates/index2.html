@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sensor Data Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <div id="chart" style="width: 80%; height: 400px;"></div>
+
+    <script>
+        var chart = echarts.init(document.getElementById('chart'));
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        // 初始化图表
+        var option = {
+            title: {
+                text: 'Sensor Data',
+            },
+            xAxis: {
+                type: 'time',
+                axisLabel: {
+                    formatter: function (value, index) {
+                        return echarts.format.formatTime('yyyy-MM-dd HH:mm:ss', value);
+                    }
+                }
+            },
+            yAxis: {
+                type: 'value',
+                min: 0,
+                max: 14
+            },
+            series: [{
+                name: 'pH Value',
+                type: 'line',
+                data: []
+            }]
+        };
+        chart.setOption(option);
+
+        // 监听服务器发送的数据
+        socket.on('sensor_data', function (data) {
+            console.log(data)//当前端接收到从后端发送的数据时，它将在浏览器的控制台中记录数据
+            // 获取当前时间
+            // 将时间戳转换为 Date 对象
+            var time = new Date(data.time);
+            
+            // 使用 ECharts 内置的时间格式化函数
+            var formattedTime = echarts.format.formatTime('yyyy-MM-dd HH:mm:ss', time);
+            console.log(formattedTime)
+            // 获取图表数据
+            var option = chart.getOption();
+        
+            // 添加新的数据点
+            option.series[0].data.push([formattedTime, data.ph]);
+
+            var maxDataPoints = 50; // 限制最大数据点数量
+
+            // 如果数据点数量太多，可以限制最大数量，以保持图表的性能
+            if (option.series[0].data.length > maxDataPoints) {
+                option.series[0].data.shift(); // 移除最早的数据点
+            }
+        
+            // 更新图表
+            chart.setOption(option);
+        
+        });
+    </script>
+</body>
+</html>

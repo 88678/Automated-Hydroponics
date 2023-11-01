@@ -12,7 +12,7 @@ from adafruit_ads1x15.analog_in import AnalogIn #ADS
 
 from flask_apscheduler import APScheduler   #定時任務
 
-#
+
 
 app = Flask(__name__)   #__name__代表目前執行的模組
 
@@ -50,6 +50,8 @@ def update_data():
     cursor.execute(sql, new_data)   #在sql中的時間和ph位置 新增時間和ph #sql
     print('數據庫寫入','new_data',new_data)
     connection.commit() #有動到資料 都要寫這個 才會提交指令 #sql
+scheduler.add_job(id='update_job', func=update_data, trigger='interval', seconds=10)
+scheduler.start()
     ###ph read
     # ####圖表
     # # cursor = mydb.cursor()  # 創建 MySQL 游標物件，用於執行 SQL 查詢
@@ -106,72 +108,8 @@ def hello():
     return render_template('main.html') #連到
 
 
-# @app.route('/login',methods=['GET','POST']) #因為要使用post方法?
-# def login():
-#     #登入的功能
-#     #request對象可以拿到瀏覽器(前端)傳給服務器的所有數據
-#     if request.method == 'POST':
-#         username = request.form.get('txtAct')
-#         password = request.form.get('txtPas')
-#         #應該要登入後 連接數據庫 校驗帳密   這裡先省略
-#         print('從服務器接收到的數據:',username,password)
-#         return redirect('/admin')
-#     return render_template('login.html')
-
-# @app.route('/admin')
-# def admin():
-#     return render_template('admin.html',student=student)    #把上面列表(數據庫)傳給admin
-
-# @app.route('/add',methods=['GET','POST'])
-# def add():                             #添加學生信息
-#     if request.method == 'POST':
-#         username = request.form.get('txtName')
-#         chinese = request.form.get('chinese')
-#         math = request.form.get('math')
-#         english = request.form.get('english')
-#         print('獲取的學員信息',username,chinese,math,english)
-#         student.append({'name':username, 'chinese':chinese, 'math':math, 'english':english})
-#         return redirect('/admin')       #重定向回admin
-        
-#     return render_template('add.html')    #返回add.html
-
-# @app.route('/delete')
-# def delete_student():       #刪除學生信息   #在後台需要拿到學員的信息(名子)，才能刪除
-#     print(request.method)
-#     username = request.args.get('name')     #取出後端的值 看是否和前端要刪除的東西一樣 ，若一樣就刪除
-#     for stu in student:    
-#         if stu['name'] == username:     
-#                student.remove(stu)      #刪除student列表中的 那個和 前端傳過來要刪除的name 一樣的name #??不是只刪除name嗎?
-
-#     return redirect('/admin')   #重定向回admin
-
-# @app.route('/change',methods=['GET','POST'])
-# def change_student():       #修改學生信息
-#     #先顯示學員的數據，然後在瀏覽器修改，提交到服務器保存
-#     username = request.args.get('name')     #取出後端的值 
-
-#     if request.method == 'POST':        #如果請求方法為post 用變數去存回傳的值
-#         username = request.form.get('txtName')
-#         chinese = request.form.get('chinese')
-#         math = request.form.get('math')
-#         english = request.form.get('english')
-
-#         for stu in student:             #將列表裡的東西取出
-#             if stu['name'] == username:     #如果列表中的名子等於回傳的名子 就修改列表內的其他資料
-#                 stu['chinese'] = chinese
-#                 stu['math'] = math
-#                 stu['english'] = english
-#         return redirect('/admin')   #重定向回admin
-
-#     for stu in student:    
-#         if stu['name'] == username:   
-#             #需要在頁面中渲染學生的成績數據
-#             return render_template('change.html',student=stu)       #把學員數據顯示到前端
-#     return redirect('/admin')   #重定向回admin
 @app.route('/dashboard')
 def dashboard():
-    scheduler.add_job(id='update_job', func=update_data, trigger='interval', seconds=10)
-    scheduler.start()
     return render_template('dashboard.html',ph=ph)    #連結到dashboard.html
 
 @app.route('/adjust',methods=['GET','POST']) 
