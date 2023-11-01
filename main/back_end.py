@@ -12,7 +12,7 @@ from adafruit_ads1x15.analog_in import AnalogIn #ADS
 
 from flask_apscheduler import APScheduler   #定時任務
 
-
+#
 
 app = Flask(__name__)   #__name__代表目前執行的模組
 
