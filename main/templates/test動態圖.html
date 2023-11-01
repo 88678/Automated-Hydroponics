@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ECharts Dynamic Line Chart</title>
+  <!-- 引入 ECharts 库 -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+</head>
+<body>
+  <div id="main" style="width: 800px; height: 400px;"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      var chartDom = document.getElementById('main');//獲取圖表容器
+      var myChart = echarts.init(chartDom);//初始化echarts圖表
+
+      // 生成随机数据点的函数
+      function randomData() {
+        now = new Date(+now + oneDay);
+        value = value + Math.random() * 21 - 10;
+        return {
+          name: now.toString(),
+          value: [
+            [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+            Math.round(value)
+          ]
+        };
+      }
+      
+      let data = [];// 存储数据点的数组
+      let now = new Date(1997, 9, 3);// 初始化日期为 1997 年 10 月 3 日
+      let oneDay = 24 * 3600 * 1000;// 一天的毫秒数
+      let value = Math.random() * 1000;// 初始数值为一个随机数
+
+      // 生成一千个随机数据点并存储在 data 数组中
+      for (var i = 0; i < 1000; i++) {
+        data.push(randomData());
+      }
+      
+      // 圖表配置選項
+      var option = {
+        title: {
+          text: 'Dynamic Data & Time Axis'// 图表的标题
+        },
+        tooltip: {
+          trigger: 'axis',
+          formatter: function (params) {
+            params = params[0];
+            var date = new Date(params.name);
+            return (
+              date.getDate() +
+              '/' +
+              (date.getMonth() + 1) +
+              '/' +
+              date.getFullYear() +
+              ' : ' +
+              params.value[1]
+            );
+          },
+          axisPointer: {
+            animation: false
+          }
+        },
+        xAxis: {
+          type: 'time',// X 轴类型为时间
+          splitLine: {
+            show: false
+          }
+        },
+        yAxis: {
+          type: 'value',// Y 轴类型为数值
+          boundaryGap: [0, '100%'],
+          splitLine: {
+            show: false
+          }
+        },
+        series: [
+          {
+            name: 'Fake Data',
+            type: 'line',
+            showSymbol: false,
+            data: data
+          }
+        ]
+      };
+
+      // 每隔 1 秒更新数据并刷新图表
+      setInterval(function () {
+        for (var i = 0; i < 5; i++) {
+          data.shift();// 移除数组的第一个数据点
+          data.push(randomData());// 添加一个新的随机数据点到数组末尾
+        }
+        myChart.setOption({
+          series: [
+            {
+              data: data
+            }
+          ]
+        });
+      }, 1000);
+
+      // 应用图表配置选项到图表
+      option && myChart.setOption(option);
+    });
+  </script>
+</body>
+</html>
