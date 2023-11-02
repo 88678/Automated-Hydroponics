@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sensor Data Visualization</title>
+    <title>監測頁面</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script><!--引入了ECharts库，用于创建数据可视化图表-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script><!--这行引入了Socket.IO库，用于实时与服务器进行WebSocket通信-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
+
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">首頁</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                  <a class="nav-link" href="#">監測頁面</a>
+              <li class="nav-item">
+                <a class="nav-link" href="#">調整頁面</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">ph校正</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <br>
     <div id="chart" style="width: 80%; height: 400px;"></div><!--创建一个<div>元素，用于放置ECharts图表。id 属性为 "chart"，设置了宽度为 80% 和高度为 400像素。-->
 
     <script>
@@ -15,7 +38,7 @@
         // 定义ECharts图表的配置 option，包括标题、X轴、Y轴和数据系列。这个配置定义了如何展示传感器数据的实时图表
         var option = {
             title: {
-                text: 'Sensor Data',
+                text: 'ph',
             },
             xAxis: {
                 type: 'time',
