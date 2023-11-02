@@ -2,17 +2,17 @@
 <html>
 <head>
     <title>Sensor Data Visualization</title>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script><!--引入了ECharts库，用于创建数据可视化图表-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script><!--这行引入了Socket.IO库，用于实时与服务器进行WebSocket通信-->
 </head>
 <body>
-    <div id="chart" style="width: 80%; height: 400px;"></div>
+    <div id="chart" style="width: 80%; height: 400px;"></div><!--创建一个<div>元素，用于放置ECharts图表。id 属性为 "chart"，设置了宽度为 80% 和高度为 400像素。-->
 
     <script>
-        var chart = echarts.init(document.getElementById('chart'));
-        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        var chart = echarts.init(document.getElementById('chart'));//这行代码初始化了一个ECharts图表对象，并将其绑定到HTML页面中的 id 为 "chart" 的 <div> 元素上
+        var socket = io.connect('http://' + document.domain + ':' + location.port);//这行代码初始化了一个Socket.IO客户端对象，用于连接到服务器上的Socket.IO服务。它会自动检测当前页面的域名和端口。
 
-        // 初始化图表
+        // 定义ECharts图表的配置 option，包括标题、X轴、Y轴和数据系列。这个配置定义了如何展示传感器数据的实时图表
         var option = {
             title: {
                 text: 'Sensor Data',
@@ -36,32 +36,31 @@
                 data: []
             }]
         };
-        chart.setOption(option);
+        chart.setOption(option);//这行代码将上述配置应用到图表对象，初始化图表
 
         // 监听服务器发送的数据
-        socket.on('sensor_data', function (data) {
-            console.log(data)//当前端接收到从后端发送的数据时，它将在浏览器的控制台中记录数据
+        socket.on('sensor_data', function (data) {//这行代码通过Socket.IO监听服务器发送的 "sensor_data" 事件，当从服务器接收到数据时，执行回调函数。
+            console.log(data)// 这行代码在浏览器的控制台中记录接收到的数据。它用于调试和查看从服务器发送的数据。
             // 获取当前时间
-            // 将时间戳转换为 Date 对象
-            var time = new Date(data.time);
+            var time = new Date(data.time);//这行代码将从服务器接收到的时间戳转换为JavaScript的日期对象。
             
             // 使用 ECharts 内置的时间格式化函数
-            var formattedTime = echarts.format.formatTime('yyyy-MM-dd HH:mm:ss', time);
+            var formattedTime = echarts.format.formatTime('yyyy-MM-dd HH:mm:ss', time);//这行代码使用ECharts内置的时间格式化函数，将日期对象格式化为指定的日期和时间格式。
             console.log(formattedTime)
-            // 获取图表数据
-            var option = chart.getOption();
         
-            // 添加新的数据点
-            option.series[0].data.push([formattedTime, data.ph]);
+            var option = chart.getOption();//这行代码获取当前图表的配置，以便更新数据系列。
+        
+            option.series[0].data.push([formattedTime, data.ph]);//添加新的数据点到图表数据系列，将时间和pH值作为数据点添加到图表中
 
             var maxDataPoints = 50; // 限制最大数据点数量
 
             // 如果数据点数量太多，可以限制最大数量，以保持图表的性能
+            //如果数据点数量超过最大值，将移除最早的数据点，以确保数据点数量不会无限增加。
             if (option.series[0].data.length > maxDataPoints) {
                 option.series[0].data.shift(); // 移除最早的数据点
             }
         
-            // 更新图表
+            // 更新图表，使其显示最新的数据点
             chart.setOption(option);
         
         });
