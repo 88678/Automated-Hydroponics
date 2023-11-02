@@ -53,35 +53,7 @@ def update_data():
 scheduler.add_job(id='update_job', func=update_data, trigger='interval', seconds=10)
 scheduler.start()
     ###ph read
-    # ####圖表
-    # # cursor = mydb.cursor()  # 創建 MySQL 游標物件，用於執行 SQL 查詢
-
-    # # 從 MySQL 中擷取資料到 Python 程式中
-    # cursor.execute("select time, ph from hydroponics;")  # 執行 SQL 查詢，選擇 hydroponics 表格中的 time 和 ph 欄位
-    # result = cursor.fetchall  # 擷取查詢結果
-
-    # time_list = []  # 用來儲存time_list的清單
-    # ph_list = []  # 用來儲存ph_list的清單
-
-    # # 迭代處理查詢結果，將姓名和成績分別加入清單
-    # for i in cursor:
-    #     time_list.append(i[0])  # 將姓名加入 Names 清單
-    #     ph_list.append(i[1])  # 將成績加入 Marks 清單
-
-    # # 輸出學生姓名和成績
-    # print("Name of Students = ", time_list)  # 顯示學生姓名
-    # print("Marks of Students = ", ph_list)  # 顯示學生成績
-
-    # # 使用 Matplotlib 進行資料視覺化
-    # # plt.bar(time_list, ph_list)  # 創建長條圖，擺放學生姓名和成績
-    # # 繪製折線圖
-    # plt.plot(time_list, ph_list, label='折線圖', marker='', linestyle='-', color='b')
-    # plt.ylim(0, 14)  # 設定 Y 軸範圍
-    # plt.xlabel("time_list")  # 設定 X 軸標籤
-    # plt.ylabel("ph_list")  # 設定 Y 軸標籤
-    # plt.title("ph_list table")  # 設定圖表標題
-    # plt.show()  # 顯示圖表
-    #     ####圖表
+   
 print('global ph',ph)   
    
 ###

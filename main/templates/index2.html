@@ -21,7 +21,7 @@
                 type: 'time',
                 axisLabel: {
                     formatter: function (value, index) {
-                        return echarts.format.formatTime('yyyy-MM-dd HH:mm:ss', value);
+                        return echarts.format.formatTime('hh:mm:ss', value);
                     }
                 }
             },
@@ -45,7 +45,7 @@
             var time = new Date(data.time);//这行代码将从服务器接收到的时间戳转换为JavaScript的日期对象。
             
             // 使用 ECharts 内置的时间格式化函数
-            var formattedTime = echarts.format.formatTime('yyyy-MM-dd HH:mm:ss', time);//这行代码使用ECharts内置的时间格式化函数，将日期对象格式化为指定的日期和时间格式。
+            var formattedTime = echarts.format.formatTime('yyyy-MM-dd hh:mm:ss', time);//这行代码使用ECharts内置的时间格式化函数，将日期对象格式化为指定的日期和时间格式。
             console.log(formattedTime)
         
             var option = chart.getOption();//这行代码获取当前图表的配置，以便更新数据系列。

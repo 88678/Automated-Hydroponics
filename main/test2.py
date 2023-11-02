@@ -77,4 +77,4 @@ def get_latest_sensor_data():
 if __name__ == '__main__':
     # 设置后台任务，每秒获取一次传感器数据
     scheduler.add_job(get_sensor_data, 'interval', seconds=3)
-    socketio.run(app, host='0.0.0.0', port=5000)
+    socketio.run(app, host='127.0.0.1', port=5000)
